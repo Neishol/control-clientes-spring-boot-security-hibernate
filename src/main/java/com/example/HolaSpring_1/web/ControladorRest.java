@@ -28,10 +28,18 @@ public class ControladorRest {
     @GetMapping("/")
     public String inicio(Model model, @AuthenticationPrincipal User user){
         var personas = personaService.listarPersonas();
+        
+        double saldoTotal = 0.0;
+        
+        for(Persona persona: personas){
+            saldoTotal += persona.getSaldo();
+        }
                 
         log.info("ejecutando el controlador Spring MVC");
         log.info("Usuario que hizo login: " + user);
         model.addAttribute("personas", personas);
+        model.addAttribute("saldoTotal", saldoTotal);
+        model.addAttribute("totalClientes", personas.size());
         
         return "index";
     }
