@@ -1,4 +1,4 @@
-package com.example.HolaSpring_1.web;
+    package com.example.HolaSpring_1.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

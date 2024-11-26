@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import lombok.Data;
 
@@ -30,4 +31,7 @@ public class Persona implements Serializable{
     private String email;
     
     private String telefono;
+    
+    @NotNull
+    private Double saldo;
 }
