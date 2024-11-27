@@ -24,14 +24,19 @@ Control de Clientes es una aplicación web desarrollada en Spring Boot que permi
 
 ## Vista Previa
 
+Login
 ![Login-es](src/main/resources/static/images/login-es.png)
 ![Login-en](src/main/resources/static/images/login-en.png)
+Dashboard
 ![Index-es](src/main/resources/static/images/index-es.png)
 ![Index-en](src/main/resources/static/images/index-en.png)
+Agregar Cliente
 ![Agregar-es](src/main/resources/static/images/agregar-es.png)
 ![Agregar-es-datos](src/main/resources/static/images/agregar-es-datos.png)
+Editar Cliente
 ![Editar-es](src/main/resources/static/images/editar-es.png)
 ![Editar-en](src/main/resources/static/images/editar-en.png)
+Eliminar Cliente
 ![Eliminar-es](src/main/resources/static/images/eliminar-es.png)
 
 
