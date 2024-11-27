@@ -38,7 +38,8 @@ Editar Cliente
 ![Editar-en](src/main/resources/static/images/editar-en.png)
 Eliminar Cliente
 ![Eliminar-es](src/main/resources/static/images/eliminar-es.png)
-
+MySQL
+![MySQL-es](src/main/resources/static/images/bd-mysql.png)
 
 ## Requisitos Previos
 
