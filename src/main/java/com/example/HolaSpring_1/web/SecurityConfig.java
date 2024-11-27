@@ -1,4 +1,4 @@
-    package com.example.HolaSpring_1.web;
+package com.example.HolaSpring_1.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,21 +16,21 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
-public class SecurityConfig{
+public class SecurityConfig {
 
     @Autowired
     private UserDetailsService userDetailsService;
-    
+
     @Bean
-    public BCryptPasswordEncoder passwordEncoder(){
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }   
-    
+    }
+
     @Autowired
-    public void configurerGlobal(AuthenticationManagerBuilder build, @Lazy BCryptPasswordEncoder passwordEncoder) throws Exception{
+    public void configurerGlobal(AuthenticationManagerBuilder build, @Lazy BCryptPasswordEncoder passwordEncoder) throws Exception {
         build.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
-    
+
     //Estandar
 //    @Bean
 //    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -40,23 +40,37 @@ public class SecurityConfig{
 //            .httpBasic(withDefaults());
 //        return http.build();
 //    }
-    
     //Configuracion propia
     //No olvidar usar anotaciones @PreAuthorize("hasRole('ADMIN')") y agregarlas
     //al servlet en los path pra agregar esa restriccion
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests(authorize -> authorize
+                .authorizeHttpRequests(authorize -> authorize
+                .requestMatchers("/login", "/resources/**", "/static/**", "/public/**", "/webui/**", "/h2-console/**", "/api/**", "/errores/**")
+                .permitAll()
                 .anyRequest().authenticated())
-            .httpBasic(withDefaults())
-            .formLogin(formLogin -> formLogin
+                .httpBasic(withDefaults())
+                .formLogin(formLogin -> formLogin
                 .loginPage("/login")
-                .permitAll())  
-            .logout(logout -> logout
+                .permitAll())
+                .logout(logout -> logout
                 .logoutSuccessUrl("/login"))
-            .exceptionHandling(exceptionHandling -> exceptionHandling
-                .accessDeniedPage("/errores/403"));                
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                .accessDeniedPage("/errores/403"));
+
+        // Configurar el AuthenticationEntryPoint para manejar el parámetro de idioma en la URL
+        http.exceptionHandling()
+                .authenticationEntryPoint((request, response, authException) -> {
+                    // Mantener el parámetro 'lang' si está presente en la URL
+                    String lang = request.getParameter("lang");
+                    if (lang != null) {
+                        response.sendRedirect("/login?lang=" + lang);  // Redirigir al login con el parámetro 'lang'
+                    } else {
+                        response.sendRedirect("/login");  // Si no hay parámetro 'lang', redirigir normalmente
+                    }
+                });
+
         return http.build();
     }
 }
