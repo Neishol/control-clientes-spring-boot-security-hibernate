@@ -55,26 +55,24 @@ public class SecurityConfig {
                 .loginPage("/login")
                 .permitAll())
                 .logout(logout -> logout
-                .logoutSuccessUrl("/login"))
-                .exceptionHandling(exceptionHandling -> exceptionHandling
-                .accessDeniedPage("/errores/403"));
+                .logoutSuccessUrl("/login"));
 
-    // Configuración moderna de excepciones con manejo de 'lang' en la URL
-    http.exceptionHandling(exception -> 
-        exception.authenticationEntryPoint((request, response, authException) -> {
-            // Obtener el parámetro 'lang' si existe en la URL
-            String lang = request.getParameter("lang");
-            if (lang != null && !lang.isEmpty()) {
-                // Redirigir al login manteniendo el parámetro 'lang'
-                response.sendRedirect("/login?lang=" + lang);
-            } else {
-                // Si no hay parámetro 'lang', redirigir normalmente
-                response.sendRedirect("/login");
-            }
-        })
-        .accessDeniedPage("/errores/403")  // Página personalizada de acceso denegado
-    );
+        // Una única llamada a .exceptionHandling para manejar tanto el AuthenticationEntryPoint como el AccessDeniedHandler
+        http.exceptionHandling(exception
+                -> exception.authenticationEntryPoint((request, response, authException) -> {
+                    // Obtener el parámetro 'lang' si existe en la URL
+                    String lang = request.getParameter("lang");
+                    if (lang != null && !lang.isEmpty()) {
+                        // Redirigir al login manteniendo el parámetro 'lang'
+                        response.sendRedirect("/login?lang=" + lang);
+                    } else {
+                        // Si no hay parámetro 'lang', redirigir normalmente
+                        response.sendRedirect("/login");
+                    }
+                })
+                        .accessDeniedPage("/errores/403") // Página personalizada de acceso denegado
+        );
 
-    return http.build();
-}
+        return http.build();
+    }
 }
