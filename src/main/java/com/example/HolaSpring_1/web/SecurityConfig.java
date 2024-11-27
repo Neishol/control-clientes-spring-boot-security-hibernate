@@ -59,18 +59,22 @@ public class SecurityConfig {
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                 .accessDeniedPage("/errores/403"));
 
-        // Configurar el AuthenticationEntryPoint para manejar el parámetro de idioma en la URL
-        http.exceptionHandling()
-                .authenticationEntryPoint((request, response, authException) -> {
-                    // Mantener el parámetro 'lang' si está presente en la URL
-                    String lang = request.getParameter("lang");
-                    if (lang != null) {
-                        response.sendRedirect("/login?lang=" + lang);  // Redirigir al login con el parámetro 'lang'
-                    } else {
-                        response.sendRedirect("/login");  // Si no hay parámetro 'lang', redirigir normalmente
-                    }
-                });
+    // Configuración moderna de excepciones con manejo de 'lang' en la URL
+    http.exceptionHandling(exception -> 
+        exception.authenticationEntryPoint((request, response, authException) -> {
+            // Obtener el parámetro 'lang' si existe en la URL
+            String lang = request.getParameter("lang");
+            if (lang != null && !lang.isEmpty()) {
+                // Redirigir al login manteniendo el parámetro 'lang'
+                response.sendRedirect("/login?lang=" + lang);
+            } else {
+                // Si no hay parámetro 'lang', redirigir normalmente
+                response.sendRedirect("/login");
+            }
+        })
+        .accessDeniedPage("/errores/403")  // Página personalizada de acceso denegado
+    );
 
-        return http.build();
-    }
+    return http.build();
+}
 }
