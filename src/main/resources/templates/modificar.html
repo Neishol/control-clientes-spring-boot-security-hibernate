@@ -1,36 +1,40 @@
 <!DOCTYPE html>
-<html xmlns:th="http://thymeleaf.org" 
-      xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org.extras/spring-security">
     <!--    Implementando el segundo namespace quita el warning del primero pero tendremos que cerrar
         todas las etiquetas de html porque sino dara error-->
-    <head>
+    <head th:replace="layout/plantilla :: head">
         <title>Datos de la Persona</title>
         <meta charset="UTF-8" />
     </head>
     <body>
         <header th:replace="layout/plantilla :: header" />
-        <h2>[[#{persona.formulario}]]</h2>
+        <section th:replace="layout/editarCliente :: editarCliente"/>
+        <footer th:replace="layout/plantilla :: footer" />
+
+
+<!--        <h2>[[#{persona.formulario}]]</h2>
         <a th:href="@{/}">[[#{accion.regresar}]]</a>
         <br>
-            <form th:action="@{/guardar}" method="post" th:object="${persona}">
+            <form th:action="@{/guardar}" method="POST" th:object="${persona}">
                 <input type="hidden" name="idPersona" th:field="*{idPersona}" />
                 <label for="nombre">[[#{persona.nombre}]]:</label>
                 <input type="text" name="nombre" th:field="*{nombre}" />
                 <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}">Error Nombre</span>
-                </br>
-                <label for="nombre">[[#{persona.apellido}]]:</label>
-                <input type="text" name="apellido" th:field="*{apellido}" />
-                <span th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}">Error Apellido</span>
-                </br>
-                <label for="nombre">[[#{persona.email}]]:</label>
-                <input type="email" name="email" th:field="*{email}" />
-                <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Error Email</span>
-                </br>
-                <label for="nombre">[[#{persona.telefono}]]:</label>
-                <input type="tel" name="telefono" th:field="*{telefono}" />
-                <input type="submit" name="guardar" th:value="#{accion.guardar}" />
+        </br>
+        <label for="nombre">[[#{persona.apellido}]]:</label>
+        <input type="text" name="apellido" th:field="*{apellido}" />
+        <span th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}">Error Apellido</span>
+        </br>
+        <label for="nombre">[[#{persona.email}]]:</label>
+        <input type="email" name="email" th:field="*{email}" />
+        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Error Email</span>
+        </br>
+        <label for="nombre">[[#{persona.telefono}]]:</label>
+        <input type="tel" name="telefono" th:field="*{telefono}" />
+        <input type="submit" name="guardar" th:value="#{accion.guardar}" />
 
-            </form>
-            <footer th:replace="layout/plantilla :: footer" />
+        </form>-->
     </body>
 </html>

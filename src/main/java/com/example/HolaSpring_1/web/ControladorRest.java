@@ -53,6 +53,7 @@ public class ControladorRest {
     @PostMapping("/guardar")
     public String guardar(@Valid Persona persona, Errors errores){
         if(errores.hasErrors()){
+            System.out.println("AAAAAAAAAAAAAAA");
             return "modificar";
         }
         personaService.guardar(persona);
